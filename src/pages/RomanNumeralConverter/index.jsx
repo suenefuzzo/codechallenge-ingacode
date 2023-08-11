@@ -44,6 +44,8 @@ export const RomanNumeralConverter = () => {
         value[i] !== "m"
       ) {
         return alert("Insira um dado válido (caracter inválido)");
+      }else if (value === "vv"){
+        return alert("Insira um dado válido (caracter inválido)")
       }
     }
 
@@ -75,7 +77,7 @@ export const RomanNumeralConverter = () => {
   };
 
   const convertData = (validData) => {
-    let result = 0;
+    let listResult = [];
 
     const data = {
       i: 1,
@@ -87,13 +89,31 @@ export const RomanNumeralConverter = () => {
       m: 1000,
     };
 
+    // verificar se o número subsequente é o mesmo que o anterior? para isso é preciso ter uma variavel que armazena o
+    // elemento prévio para comparação, se sim indicar a soma
+
+    // talvez dê para fazer três varificações 
+      // -> se na expressão o maior número estiver a direita, deve-se subtrair
+      // -> se na expressão o maior número estiver a esquerda, deve-se somar
+      // deve ser feito mesmo por posição? ou se o primeiro elemento for menor que o segundo já posso considerar a subtração
+
+    // será que devo criar uma string e ir dando push nos valores?
+
+
     for (let i = 0; i < validData.length; i++) {
-      if (Object.keys(data).includes(validData[i])) {
-        result = result + data[validData[i]];
+      if (data[validData[i]] < data[validData[i+1]]){
+        listResult.push(data[validData[i+1]] - data[validData[i]])
+        i++
+        continue
+      }else {
+        listResult.push(data[validData[i]])
       }
     }
+    
+    const sum = listResult.reduce((accumulator, current) => accumulator + current, 0)
+    
 
-    return result;
+    return sum;
   };
 
 
