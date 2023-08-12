@@ -47,7 +47,6 @@ export const StyledMainPassword = styled.main`
         .inputRange {
           width: 100%;
           height: 8px;
-          -webkit-appearance: none;
           outline: none;
           background: white;
           border-radius: 25px;

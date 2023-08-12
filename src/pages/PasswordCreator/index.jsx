@@ -3,6 +3,10 @@ import { StyledMainPassword } from "./styles";
 
 export const PasswordCreator = () => {
   const [lengthNumber, setLengthNumber] = useState(1);
+  const [capitalLetter, setCapitalLetter] = useState(true)
+  const [smallLetter, setsmallLetter] = useState(true)
+  const [number, setNumber] = useState(true)
+  const [specialCharacter, setSpecialCharacter] = useState(true)
   const [newPassword, setNewPassword] = useState([]);
 
   const passwordLength = (event) => {
@@ -10,9 +14,7 @@ export const PasswordCreator = () => {
     setLengthNumber(capturedlength);
   };
 
-  const passwordByLength = (event) => {
-    event.preventDefault();
-
+  const passwordByLength = () => {
     let resultConstruction = []
 
     for (let i = 0; i < lengthNumber; i++) {
@@ -21,17 +23,46 @@ export const PasswordCreator = () => {
 
       const result = Math.floor(Math.random() * (max - min + 1)) + min;
 
-      console.log(result);
       resultConstruction.push(result)
     }
 
-    setNewPassword(resultConstruction);
+  const newPassword = resultConstruction.join("");
+  setNewPassword(newPassword);
   };
+
+  const handleChange = (data) => {
+    if(data == "capitalLetter"){
+        if(capitalLetter == true){
+            console.log(data)
+        }
+        setCapitalLetter(!capitalLetter)
+    }
+
+    if(data == "smallLetter"){
+        if(smallLetter == true){
+            console.log(data)
+        }
+        setsmallLetter(!smallLetter)
+    }
+
+    if(data == "number"){
+        if(number == true){
+            console.log(data)
+        }
+        setNumber(!number)
+    }
+
+    if(data == "specialCharacter"){
+        if(specialCharacter == true){
+            console.log(data)
+        }
+        setSpecialCharacter(!specialCharacter)
+    }
+  }
 
   // construção da lógica
   // Será necessario construir uma funçãopara cada especificidade
   //    - primeiro caso: se apenas o tamanho da senha for definido sem nenhuma das opções -> retornar uma senha     apenas de número
-  //    - colocar o numero recebido em um array?
   //    - como capturar dado de um input checkbox
   //    - para a lógica: buscar um método nativo que gere dados aleatorios, como letras, numeros e caracteres
   //    - para a lógica: dado certo tamanho de senha, seria ideal criar um ciclo de preenchimento de dados passando por todas as opções marcadas, até completar o numero fornecido!
@@ -58,26 +89,31 @@ export const PasswordCreator = () => {
               className="inputRange"
             />
           </fieldset>
+
           <fieldset>
-            <input type="checkbox" name="capital_letters" />
-            <label htmlFor="capitalletters">Insere letra maiúscula</label>
+            <input type="checkbox" name="option" value={capitalLetter} onChange={() => handleChange("capitalLetter")}/>
+            <label htmlFor="capitalLetters">Insere letra maiúscula</label>
             <small>(A-Z)</small>
           </fieldset>
+
           <fieldset>
-            <input type="checkbox" name="small_letters" />
-            <label htmlFor="small_letters">Insere letra minúscula</label>
+            <input type="checkbox" name="option" value={smallLetter} onChange={() => handleChange("smallLetter")}/>
+            <label htmlFor="smallLetter">Insere letra minúscula</label>
             <small>(a-z)</small>
           </fieldset>
+
           <fieldset>
-            <input type="checkbox" name="numbers" />
-            <label htmlFor="numbers">Insere um número</label>
+            <input type="checkbox" name="option" value={number} onChange={() => handleChange("number")}/>
+            <label htmlFor="number">Insere um número</label>
             <small>(0-9)</small>
           </fieldset>
+
           <fieldset>
-            <input type="checkbox" name="spacial_characters" />
-            <label htmlFor="spacial_characters">Insere um símbolo</label>
+            <input type="checkbox" name="option" value={specialCharacter} onChange={() => handleChange("specialCharacter")}/>
+            <label htmlFor="specialCharacter">Insere um símbolo</label>
             <small>(!@#$%&*...)</small>
           </fieldset>
+
           <button type="submit" className="generateButton" onClick={(e) => {
             e.preventDefault();
             passwordByLength(e)
@@ -85,7 +121,7 @@ export const PasswordCreator = () => {
             Gerar senha
           </button>
           <div className="containerPassword">
-            <span>{newPassword.join("")}</span>
+            <span>{newPassword}</span>
             <button className="copyButton">Copiar senha</button>
           </div>
         </form>
