@@ -37,7 +37,6 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 150%;
     overflow-x: hidden;
-    /* overflow-y: hidden; */
     font-family: "Inter", sans-serif;
     margin: 0;
 

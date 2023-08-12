@@ -1,19 +1,6 @@
 import { useState } from "react";
 import { StyledMain } from "./style";
 
-/*
-- capturar o valor do input
-- converte para minúsculo
-- apresentar erro para dados inválidos
-- criar objeto associando valor a letra
-- criar função para calcular resultado
-  -> comparar o valor das letras e criar condicional:
-    -> se o maior valor estiver a direita o calculo será de subtração
-    -> se o maior valor estiver a esquerda o calculo será de soma
-    -> e os elementos forem iguais, também será feita a soma
-
-atenção: um elemento não se repete mais de 3 vezes em sequencia
-*/
 
 export const RomanNumeralConverter = () => {
   const [value, setValue] = useState("");
@@ -89,17 +76,6 @@ export const RomanNumeralConverter = () => {
       m: 1000,
     };
 
-    // verificar se o número subsequente é o mesmo que o anterior? para isso é preciso ter uma variavel que armazena o
-    // elemento prévio para comparação, se sim indicar a soma
-
-    // talvez dê para fazer três varificações 
-      // -> se na expressão o maior número estiver a direita, deve-se subtrair
-      // -> se na expressão o maior número estiver a esquerda, deve-se somar
-      // deve ser feito mesmo por posição? ou se o primeiro elemento for menor que o segundo já posso considerar a subtração
-
-    // será que devo criar uma string e ir dando push nos valores?
-
-
     for (let i = 0; i < validData.length; i++) {
       if (data[validData[i]] < data[validData[i+1]]){
         listResult.push(data[validData[i+1]] - data[validData[i]])
@@ -110,10 +86,10 @@ export const RomanNumeralConverter = () => {
       }
     }
     
-    const sum = listResult.reduce((accumulator, current) => accumulator + current, 0)
+    const result = listResult.reduce((accumulator, current) => accumulator + current, 0)
     
 
-    return sum;
+    return result;
   };
 
 
