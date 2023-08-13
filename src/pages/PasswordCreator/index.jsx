@@ -34,6 +34,10 @@ export const PasswordCreator = () => {
     if(data == "capitalLetter"){
         if(capitalLetter == true){
             console.log(data)
+            // const result = randomCapitalLetter()
+            // console.log(result)
+            // return result
+    
         }
         setCapitalLetter(!capitalLetter)
     }
@@ -58,6 +62,32 @@ export const PasswordCreator = () => {
         }
         setSpecialCharacter(!specialCharacter)
     }
+  }
+
+  const randomCapitalLetter = () => {
+    const capLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const randomLetter = capLetters.charAt(Math.floor(Math.random() * capLetters.length))
+
+    return randomLetter
+  }
+
+  const randomSmallLetter = () => {
+    const smallLetters = "abcdefghijklmnopqrstuvwxyz";
+    const randomLetter = smallLetters.charAt(Math.floor(Math.random() * smallLetters.length))
+
+    return randomLetter
+  }
+
+  const randomNumber = () => {
+    const generateNumber = passwordByLength()
+    return generateNumber
+  }
+
+  const randomCharacter = () => {
+    const characters = "!#$%&'()*+,-./:;<=>?@{}"
+    const randomCharacter = characters.charAt(Math.floor(Math.random() * characters.length))
+
+    return randomCharacter
   }
 
   // construção da lógica
