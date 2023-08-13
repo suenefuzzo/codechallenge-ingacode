@@ -1,5 +1,6 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { StyledMainPassword } from "./styles";
+import CopyToClipboard from "react-copy-to-clipboard";
 
 export const PasswordCreator = () => {
   const [lengthNumber, setLengthNumber] = useState(1);
@@ -7,8 +8,8 @@ export const PasswordCreator = () => {
   const [smallLetter, setsmallLetter] = useState(true);
   const [number, setNumber] = useState(true);
   const [specialCharacter, setSpecialCharacter] = useState(true);
-
   const [newPassword, setNewPassword] = useState("");
+  const [, setCopy] = useState(false);
 
   const passwordLength = (event) => {
     const capturedlength = event.target.value;
@@ -55,8 +56,8 @@ export const PasswordCreator = () => {
 
     const allOptionsSelected =
       capitalLetter && smallLetter && number && specialCharacter;
-      
-     if (lengthNumber <= 3 && allOptionsSelected) {
+
+    if (lengthNumber <= 3 && allOptionsSelected) {
       alert(
         "Sua senha precisa ter mais de 3 caracteres para inserir todos os opcionais"
       );
@@ -67,37 +68,32 @@ export const PasswordCreator = () => {
         if (capitalLetter) {
           const getRandom = randomCapitalLetter();
           newString += getRandom;
-          count++
-          
+          count++;
         }
 
         if (smallLetter) {
           const getRandom = randomSmallLetter();
           newString += getRandom;
-          count++
-          
+          count++;
         }
 
         if (number) {
           const getRandom = randomNumber();
           newString += getRandom;
-          count++
-          
+          count++;
         }
 
         if (specialCharacter) {
           const getRandom = randomCharacter();
           newString += getRandom;
-          count++
-          
+          count++;
         }
       }
-      newString = newString.slice(0, lengthNumber)
+      newString = newString.slice(0, lengthNumber);
 
       setNewPassword(newString);
     }
   };
-
 
   return (
     <StyledMainPassword>
@@ -176,7 +172,11 @@ export const PasswordCreator = () => {
           </button>
           <div className="containerPassword">
             <span>{newPassword}</span>
-            <button className="copyButton">Copiar senha</button>
+            <CopyToClipboard text={newPassword} onCopy={() => setCopy(true)}>
+              <button type="button" className="copyButton">
+                Copiar senha
+              </button>
+            </CopyToClipboard>
           </div>
         </form>
       </div>
