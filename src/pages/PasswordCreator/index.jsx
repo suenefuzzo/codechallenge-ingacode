@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { StyledMainPassword } from "./styles";
 
 export const PasswordCreator = () => {
@@ -8,29 +8,12 @@ export const PasswordCreator = () => {
   const [number, setNumber] = useState(true);
   const [specialCharacter, setSpecialCharacter] = useState(true);
 
-  const [newPassword, setNewPassword] = useState([]);
+  const [newPassword, setNewPassword] = useState("");
 
   const passwordLength = (event) => {
     const capturedlength = event.target.value;
     setLengthNumber(capturedlength);
   };
-  console.log(lengthNumber)
-
-  const generateNumberPassword = () => {
-    let resultConstruction = [];
-
-    for (let i = 0; i < lengthNumber; i++) {
-      const min = Math.ceil(0);
-      const max = Math.floor(9);
-      const result = Math.floor(Math.random() * (max - min + 1)) + min;
-
-      resultConstruction.push(result);
-    }
-
-    const newPassword = resultConstruction.join("");
-    setNewPassword(newPassword);
-  };
-  console.log(newPassword)
 
   const randomCapitalLetter = () => {
     const capLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -55,7 +38,7 @@ export const PasswordCreator = () => {
     const max = Math.floor(9);
     const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
-    return randomNumber
+    return randomNumber;
   };
 
   const randomCharacter = () => {
@@ -69,44 +52,52 @@ export const PasswordCreator = () => {
 
   const generatePassword = () => {
     let newString = "";
-  
-    const allOptionsSelected = capitalLetter && smallLetter && number && specialCharacter;
-  
-    if (!capitalLetter && !smallLetter && !number && !specialCharacter) {
-      const result = generateNumberPassword();
-      setNewPassword(result); // Aqui
-    } else if (lengthNumber <= 3 && allOptionsSelected) {
-      alert("Sua senha precisa ter mais de 3 caracteres para inserir todos os opcionais");
+
+    const allOptionsSelected =
+      capitalLetter && smallLetter && number && specialCharacter;
+      
+     if (lengthNumber <= 3 && allOptionsSelected) {
+      alert(
+        "Sua senha precisa ter mais de 3 caracteres para inserir todos os opcionais"
+      );
     } else {
-      for (let i = 0; i < lengthNumber; i++) {
+      let count = 0;
+
+      while (count < lengthNumber) {
         if (capitalLetter) {
           const getRandom = randomCapitalLetter();
           newString += getRandom;
+          count++
+          
         }
-  
+
         if (smallLetter) {
           const getRandom = randomSmallLetter();
           newString += getRandom;
+          count++
+          
         }
-  
+
         if (number) {
           const getRandom = randomNumber();
           newString += getRandom;
+          count++
+          
         }
-  
+
         if (specialCharacter) {
           const getRandom = randomCharacter();
           newString += getRandom;
+          count++
+          
         }
       }
-      
+      newString = newString.slice(0, lengthNumber)
+
       setNewPassword(newString);
     }
   };
 
-  useEffect(() => {
-    generateNumberPassword();
-  }, [lengthNumber]);
 
   return (
     <StyledMainPassword>
