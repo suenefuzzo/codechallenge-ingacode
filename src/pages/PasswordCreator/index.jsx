@@ -1,103 +1,112 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyledMainPassword } from "./styles";
 
 export const PasswordCreator = () => {
   const [lengthNumber, setLengthNumber] = useState(1);
-  const [capitalLetter, setCapitalLetter] = useState(true)
-  const [smallLetter, setsmallLetter] = useState(true)
-  const [number, setNumber] = useState(true)
-  const [specialCharacter, setSpecialCharacter] = useState(true)
+  const [capitalLetter, setCapitalLetter] = useState(true);
+  const [smallLetter, setsmallLetter] = useState(true);
+  const [number, setNumber] = useState(true);
+  const [specialCharacter, setSpecialCharacter] = useState(true);
+
   const [newPassword, setNewPassword] = useState([]);
 
   const passwordLength = (event) => {
     const capturedlength = event.target.value;
     setLengthNumber(capturedlength);
   };
+  console.log(lengthNumber)
 
-  const passwordByLength = () => {
-    let resultConstruction = []
+  const generateNumberPassword = () => {
+    let resultConstruction = [];
 
     for (let i = 0; i < lengthNumber; i++) {
       const min = Math.ceil(0);
       const max = Math.floor(9);
-
       const result = Math.floor(Math.random() * (max - min + 1)) + min;
 
-      resultConstruction.push(result)
+      resultConstruction.push(result);
     }
 
-  const newPassword = resultConstruction.join("");
-  setNewPassword(newPassword);
+    const newPassword = resultConstruction.join("");
+    setNewPassword(newPassword);
   };
-
-  const handleChange = (data) => {
-    if(data == "capitalLetter"){
-        if(capitalLetter == true){
-            console.log(data)
-            // const result = randomCapitalLetter()
-            // console.log(result)
-            // return result
-    
-        }
-        setCapitalLetter(!capitalLetter)
-    }
-
-    if(data == "smallLetter"){
-        if(smallLetter == true){
-            console.log(data)
-        }
-        setsmallLetter(!smallLetter)
-    }
-
-    if(data == "number"){
-        if(number == true){
-            console.log(data)
-        }
-        setNumber(!number)
-    }
-
-    if(data == "specialCharacter"){
-        if(specialCharacter == true){
-            console.log(data)
-        }
-        setSpecialCharacter(!specialCharacter)
-    }
-  }
+  console.log(newPassword)
 
   const randomCapitalLetter = () => {
     const capLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const randomLetter = capLetters.charAt(Math.floor(Math.random() * capLetters.length))
+    const randomLetter = capLetters.charAt(
+      Math.floor(Math.random() * capLetters.length)
+    );
 
-    return randomLetter
-  }
+    return randomLetter;
+  };
 
   const randomSmallLetter = () => {
     const smallLetters = "abcdefghijklmnopqrstuvwxyz";
-    const randomLetter = smallLetters.charAt(Math.floor(Math.random() * smallLetters.length))
+    const randomLetter = smallLetters.charAt(
+      Math.floor(Math.random() * smallLetters.length)
+    );
 
-    return randomLetter
-  }
+    return randomLetter;
+  };
 
   const randomNumber = () => {
-    const generateNumber = passwordByLength()
-    return generateNumber
-  }
+    const min = Math.ceil(0);
+    const max = Math.floor(9);
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    return randomNumber
+  };
 
   const randomCharacter = () => {
-    const characters = "!#$%&'()*+,-./:;<=>?@{}"
-    const randomCharacter = characters.charAt(Math.floor(Math.random() * characters.length))
+    const characters = "!#$%&'()*+,-./:;<=>?@{}";
+    const randomCharacter = characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
 
-    return randomCharacter
-  }
+    return randomCharacter;
+  };
 
-  // construção da lógica
-  // Será necessario construir uma funçãopara cada especificidade
-  //    - primeiro caso: se apenas o tamanho da senha for definido sem nenhuma das opções -> retornar uma senha     apenas de número
-  //    - como capturar dado de um input checkbox
-  //    - para a lógica: buscar um método nativo que gere dados aleatorios, como letras, numeros e caracteres
-  //    - para a lógica: dado certo tamanho de senha, seria ideal criar um ciclo de preenchimento de dados passando por todas as opções marcadas, até completar o numero fornecido!
+  const generatePassword = () => {
+    let newString = "";
+  
+    const allOptionsSelected = capitalLetter && smallLetter && number && specialCharacter;
+  
+    if (!capitalLetter && !smallLetter && !number && !specialCharacter) {
+      const result = generateNumberPassword();
+      setNewPassword(result); // Aqui
+    } else if (lengthNumber <= 3 && allOptionsSelected) {
+      alert("Sua senha precisa ter mais de 3 caracteres para inserir todos os opcionais");
+    } else {
+      for (let i = 0; i < lengthNumber; i++) {
+        if (capitalLetter) {
+          const getRandom = randomCapitalLetter();
+          newString += getRandom;
+        }
+  
+        if (smallLetter) {
+          const getRandom = randomSmallLetter();
+          newString += getRandom;
+        }
+  
+        if (number) {
+          const getRandom = randomNumber();
+          newString += getRandom;
+        }
+  
+        if (specialCharacter) {
+          const getRandom = randomCharacter();
+          newString += getRandom;
+        }
+      }
+      
+      setNewPassword(newString);
+    }
+  };
 
-  //    atenção, o retorno do dado final deve ser uma string
+  useEffect(() => {
+    generateNumberPassword();
+  }, [lengthNumber]);
 
   return (
     <StyledMainPassword>
@@ -121,33 +130,57 @@ export const PasswordCreator = () => {
           </fieldset>
 
           <fieldset>
-            <input type="checkbox" name="option" value={capitalLetter} onChange={() => handleChange("capitalLetter")}/>
+            <input
+              type="checkbox"
+              name="option"
+              checked={capitalLetter}
+              onChange={() => setCapitalLetter(!capitalLetter)}
+            />
             <label htmlFor="capitalLetters">Insere letra maiúscula</label>
             <small>(A-Z)</small>
           </fieldset>
 
           <fieldset>
-            <input type="checkbox" name="option" value={smallLetter} onChange={() => handleChange("smallLetter")}/>
+            <input
+              type="checkbox"
+              name="option"
+              checked={smallLetter}
+              onChange={() => setsmallLetter(!smallLetter)}
+            />
             <label htmlFor="smallLetter">Insere letra minúscula</label>
             <small>(a-z)</small>
           </fieldset>
 
           <fieldset>
-            <input type="checkbox" name="option" value={number} onChange={() => handleChange("number")}/>
+            <input
+              type="checkbox"
+              name="option"
+              checked={number}
+              onChange={() => setNumber(!number)}
+            />
             <label htmlFor="number">Insere um número</label>
             <small>(0-9)</small>
           </fieldset>
 
           <fieldset>
-            <input type="checkbox" name="option" value={specialCharacter} onChange={() => handleChange("specialCharacter")}/>
+            <input
+              type="checkbox"
+              name="option"
+              checked={specialCharacter}
+              onChange={() => setSpecialCharacter(!specialCharacter)}
+            />
             <label htmlFor="specialCharacter">Insere um símbolo</label>
             <small>(!@#$%&*...)</small>
           </fieldset>
 
-          <button type="submit" className="generateButton" onClick={(e) => {
-            e.preventDefault();
-            passwordByLength(e)
-          }}>
+          <button
+            type="submit"
+            className="generateButton"
+            onClick={(e) => {
+              e.preventDefault();
+              generatePassword(e);
+            }}
+          >
             Gerar senha
           </button>
           <div className="containerPassword">
