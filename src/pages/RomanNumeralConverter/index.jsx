@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { StyledMain } from "./style";
 
-
 export const RomanNumeralConverter = () => {
   const [value, setValue] = useState("");
-  const [convertedValue, setConvertedValue] = useState("")
+  const [convertedValue, setConvertedValue] = useState("");
 
   const handleChange = (event) => {
     const inputValue = event.target.value.toLowerCase();
     setValue(inputValue);
-
   };
 
   const handleConvert = (event) => {
@@ -31,15 +29,14 @@ export const RomanNumeralConverter = () => {
         value[i] !== "m"
       ) {
         return alert("Insira um dado válido (caracter inválido)");
-      }else if (value === "vv"){
-        return alert("Insira um dado válido (caracter inválido)")
+      } else if (value === "vv") {
+        return alert("Insira um dado válido (caracter inválido)");
       }
     }
 
     const validResult = convertData(value);
-    setConvertedValue(validResult)
-
-  }
+    setConvertedValue(validResult);
+  };
 
   const validateData = (userData) => {
     const repeats = 3;
@@ -77,36 +74,40 @@ export const RomanNumeralConverter = () => {
     };
 
     for (let i = 0; i < validData.length; i++) {
-      if (data[validData[i]] < data[validData[i+1]]){
-        listResult.push(data[validData[i+1]] - data[validData[i]])
-        i++
-        continue
-      }else {
-        listResult.push(data[validData[i]])
+      if (data[validData[i]] < data[validData[i + 1]]) {
+        listResult.push(data[validData[i + 1]] - data[validData[i]]);
+        i++;
+        continue;
+      } else {
+        listResult.push(data[validData[i]]);
       }
     }
-    
-    const result = listResult.reduce((accumulator, current) => accumulator + current, 0)
-    
+
+    const result = listResult.reduce(
+      (accumulator, current) => accumulator + current,
+      0
+    );
 
     return result;
   };
 
-
   return (
     <StyledMain>
-      <h1>Roman Numeral</h1>
-      <form>
-        <input
-          type="text"
-          value={value}
-          onChange={handleChange}
-          placeholder="Digite o número romano"
-        />
-        <button onClick={handleConvert}>Converter</button>
-      </form>
-      <div className="container__span">
-        Resultado: <span className="result">{convertedValue}</span>
+      <div className="container">
+        <img src="/robot.jpg" alt="" />
+        <h1>Roman Numeral</h1>
+        <form>
+          <input
+            type="text"
+            value={value}
+            onChange={handleChange}
+            placeholder="Digite o número romano"
+          />
+          <button onClick={handleConvert}>Converter</button>
+        </form>
+        <div className="containerSpan">
+          Resultado: <span className="result">{convertedValue}</span>
+        </div>
       </div>
     </StyledMain>
   );
