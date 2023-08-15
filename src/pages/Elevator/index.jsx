@@ -1,102 +1,99 @@
-/*
-Essenciais: 
-    - O usuário pode ver um diagrama de seção transversal de um prédio com quatro andares, um 
-poço de elevador, o elevador e um botão para cima no primeiro andar. 
-        -> parte gráfica, visual! Visualização completa do simulador
-    - O usuário pode ver o painel de controle do elevador com um botão para cada um dos 
-andares ao lado do diagrama do elevador. 
-        -> parte gráfica! Visualização do painel de controle para escolha do andar.
-    - O usuário pode clicar no painel de controle do elevador para selecionar o andar para o qual 
-ele deve ir. 
-        -> evento! leva o usuário ao andar escolhido através do painel.
-    -  O usuário pode selecionar vários andares e a ordem a ser atendida é na sequência que foi 
-clicado. 
-        -> condicionais! Provavel lista contendo os andares escolhidos, onde a ordem de evento é a mesma dos dados de entrada da lista
-    - O usuário pode esperar que o elevador retorne ao primeiro andar quando não houver 
-solicitações para processar. 
-        -> Caso não haja entrada de dado (seleção de andar por usuário), condicional de retorno para 1º andar
-        -> outra opção é determinar tempo sem uso do painel de controle. Se até determinado tempo não houver solicitação, enviar o elevador para o 1º andar
-
-
-Questionamentos:
-    - 
-
-Definições:
-    - nos andares 2º e 3º será necessario que o botão do andar seja pra subir ou descer
-    - no 4º andar o botão deve ser apenas para descer
-
-    - construir sequencia de andares
-
-    - quando elevador chegar no andar, remover o indice 0 da lista de floors com slice
-*/
-
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyledBuilding,
   StyledControlPanel,
+  StyledDownButton,
   StyledElevator,
   StyledElevatorShaft,
   StyledFloor,
   StyledMain,
+  StyledUpAndDownButton,
   StyledUpButton,
 } from "./style";
 
 export const Elevator = () => {
-    const [listFloors, setListFloors] = useState([]);
-    const [isMoving, setIsMoving] = useState(false);
-  
-    const handleChange = (event) => {
-      setListFloors([...listFloors, event.target.value]);
-    };
-  
-    console.log(listFloors);
-  
-    useEffect(() => {
-      if (isMoving) {
-        if (listFloors.length > 0) {
-          const nextFloor = listFloors[0];
-          const elevatorElement = document.querySelector(".container_elevator");
-  
-          if (elevatorElement) {
-            if (nextFloor === "1") {
-              elevatorElement.style.bottom = "0px";
-            } else if (nextFloor === "2") {
-              elevatorElement.style.bottom = "150px";
-            } else if (nextFloor === "3") {
-              elevatorElement.style.bottom = "300px";
-            } else if (nextFloor === "4") {
-              elevatorElement.style.bottom = "450px";
-            }
-  
-            setTimeout(() => {
-              const newList = listFloors.slice(1);
-              setListFloors(newList);
-            }, 1000);
+  const [listFloors, setListFloors] = useState([]);
+  const [isMoving, setIsMoving] = useState(false);
+  const [floor, setFloor] = useState("");
+
+  const handleChange = (event) => {
+    setListFloors([...listFloors, event.target.value]);
+  };
+
+  const handleFloorChange = (event) => {
+    setFloor(event.target.value);
+  };
+
+  useEffect(() => {
+    if (isMoving) {
+      if (listFloors.length > 0) {
+        const nextFloor = listFloors[0];
+        const elevatorElement = document.querySelector(".container_elevator");
+
+        if (elevatorElement) {
+          if (nextFloor === "1") {
+            elevatorElement.style.bottom = "0px";
+          } else if (nextFloor === "2") {
+            elevatorElement.style.bottom = "150px";
+          } else if (nextFloor === "3") {
+            elevatorElement.style.bottom = "300px";
+          } else if (nextFloor === "4") {
+            elevatorElement.style.bottom = "450px";
           }
-        } else {
-          setIsMoving(false);
+
           setTimeout(() => {
-            const elevatorElement = document.querySelector(".container_elevator");
-            if (elevatorElement) {
-              elevatorElement.style.bottom = "0px";
-            }
-          }, 2000);
+            const newList = listFloors.slice(1);
+            setListFloors(newList);
+          }, 4000);
         }
+      } else {
+        setIsMoving(false);
+        setTimeout(() => {
+          const elevatorElement = document.querySelector(".container_elevator");
+
+          if (elevatorElement) {
+            elevatorElement.style.bottom = "0px";
+          }
+        }, 5000);
       }
-    }, [isMoving, listFloors]);
+    }
+  }, [isMoving, listFloors]);
 
-    const startJourney = () => {
-        if (!isMoving && listFloors.length > 0) {
-          setIsMoving(true);
-        }
-      };
+  const startJourney = () => {
+    if (!isMoving && listFloors.length > 0) {
+      setIsMoving(true);
+    }
+  };
 
+  useEffect(() => {
+    const containerElevator = document.querySelector(".container_elevator");
+    const elevatorBox = document.querySelector(".elevator");
 
+    const callElevator = () => {
+      if (floor === "1f") {
+        containerElevator.style.bottom = "0px";
+      } else if (floor === "2f") {
+        containerElevator.style.bottom = "150px";
+        elevatorBox.style.backgroundColor = "green";
+      } else if (floor === "3f") {
+        containerElevator.style.bottom = "300px";
+        elevatorBox.style.backgroundColor = "green";
+      } else if (floor === "4f") {
+        containerElevator.style.bottom = "450px";
+        elevatorBox.style.backgroundColor = "green";
+      }
+    };
+    setTimeout(() => {
+      const elevatorElement = document.querySelector(".container_elevator");
+      const elevatorBox = document.querySelector(".elevator");
 
-  // botão
-  //  -> se evento de click  = 1, renderiza a seta pra cima
-  // -> se > 1, renderiza seta para cima e para baixo
-  // -> se = 4, renderiza seta para baixo
+      if (floor !== "1f") {
+        elevatorElement.style.bottom = "0px";
+        elevatorBox.style.backgroundColor = "beige";
+      }
+    }, 5000);
+    callElevator();
+  }, [floor]);
 
   return (
     <>
@@ -104,13 +101,37 @@ export const Elevator = () => {
       <StyledMain>
         <StyledBuilding>
           <StyledElevatorShaft>
-            <StyledFloor>4º andar</StyledFloor>
-            <StyledFloor>3º andar</StyledFloor>
-            <StyledFloor>2º andar</StyledFloor>
-            <StyledFloor>1º andar</StyledFloor>
+            <StyledFloor>
+              4º andar
+              <StyledDownButton value={"4f"} onClick={handleFloorChange} />
+            </StyledFloor>
+            <StyledFloor>
+              3º andar
+              <StyledUpAndDownButton
+                type="button"
+                value={"3f"}
+                onClick={handleFloorChange}
+              />
+            </StyledFloor>
+            <StyledFloor>
+              2º andar
+              <StyledUpAndDownButton
+                type="button"
+                value={"2f"}
+                onClick={handleFloorChange}
+              />
+            </StyledFloor>
+            <StyledFloor>
+              1º andar
+              <StyledUpButton
+                type="button"
+                className="firstFloorButton"
+                value={"1f"}
+                onClick={handleFloorChange}
+              />
+            </StyledFloor>
             <div className="container_elevator">
               <StyledElevator className="elevator" />
-              <StyledUpButton type="button"></StyledUpButton>
             </div>
           </StyledElevatorShaft>
         </StyledBuilding>
@@ -127,9 +148,11 @@ export const Elevator = () => {
           <button type="button" value={"1"} onClick={handleChange}>
             1
           </button>
-          <button type="button" onClick={startJourney}>
-            Iniciar Viagem
-          </button>
+          <button
+            type="button"
+            className="goButton"
+            onClick={startJourney}
+          ></button>
         </StyledControlPanel>
       </StyledMain>
     </>

@@ -4,7 +4,6 @@ export const StyledMain = styled.main`
   height: 100vh;
   width: 100vw;
   display: flex;
-  /* flex-direction: column; */
   justify-content: center;
   align-items: center;
   gap: 20px;
@@ -41,6 +40,7 @@ export const StyledFloor = styled.div`
   width: 300px;
   width: 100%;
   border-top: 1px dotted black;
+  position: relative;
 `;
 
 export const StyledElevator = styled.div`
@@ -50,28 +50,67 @@ export const StyledElevator = styled.div`
 `;
 
 export const StyledUpButton = styled.button`
-    background-image: url("/caret-up-solid.svg");
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-position: center;
-    border: 1px solid black;
-    height: 20px;
-    cursor: pointer;
-`
-export const StyledControlPanel = styled.div`
-    background-color: brown;
-    height: 145px;
-    width: 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    gap: 8px;
+  background-image: url("/caret-up-solid.svg");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 1px solid black;
+  height: 20px;
+  position: absolute;
+  bottom: 30px;
+  right: 6px;
+  cursor: pointer;
+`;
 
-    button{
-        width: 20px;
-        border-radius: 100%;
-        border: none;
-        cursor: pointer;
-    }
-`
+export const StyledDownButton = styled.button`
+  background-image: url("/caret-down-solid.svg");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 1px solid black;
+  height: 20px;
+  position: absolute;
+  bottom: 30px;
+  right: 6px;
+  cursor: pointer;
+`;
+
+export const StyledUpAndDownButton = styled.button`
+  background-image: url("/up-down-solid.svg");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 1px solid black;
+  height: 20px;
+  position: absolute;
+  bottom: 30px;
+  right: 6px;
+  cursor: pointer;
+`;
+
+export const StyledControlPanel = styled.div`
+  background-color: brown;
+  height: 145px;
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 8px;
+
+  button {
+    width: 20px;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+  }
+
+  .goButton {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+    background-color: green;
+  }
+`;
