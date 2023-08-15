@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyledMain } from "./style";
+import { StyledConverterButton, StyledFormContainer, StyledMain } from "./style";
 
 export const RomanNumeralConverter = () => {
   const [value, setValue] = useState("");
@@ -94,20 +94,22 @@ export const RomanNumeralConverter = () => {
   return (
     <StyledMain>
       <div className="container">
-        <img src="/robot.jpg" alt="" />
-        <h1>Roman Numeral</h1>
-        <form>
-          <input
-            type="text"
-            value={value}
-            onChange={handleChange}
-            placeholder="Digite o número romano"
-          />
-          <button onClick={handleConvert}>Converter</button>
-        </form>
-        <div className="containerSpan">
-          Resultado: <span className="result">{convertedValue}</span>
-        </div>
+        <img src="/roman.png" alt="" />
+        <StyledFormContainer>
+          <form>
+            <h1>Roman Numeral</h1>
+            <input
+              type="text"
+              value={value}
+              onChange={handleChange}
+              placeholder="Digite o número romano"
+            />
+            <StyledConverterButton onClick={handleConvert}>Converter</StyledConverterButton>
+          </form>
+          <div className="containerSpan">
+            <span>{convertedValue}</span>
+          </div>
+        </StyledFormContainer>
       </div>
     </StyledMain>
   );

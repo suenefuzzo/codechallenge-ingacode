@@ -1,6 +1,9 @@
 import { styled } from "styled-components";
 
 export const StyledMain = styled.main`
+  background-image: url("/buildings.jpg");
+  background-position: center;
+  background-size: cover;
   height: 100vh;
   width: 100vw;
   display: flex;
