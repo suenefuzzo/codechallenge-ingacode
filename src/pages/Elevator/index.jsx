@@ -30,7 +30,7 @@ Definições:
     - quando elevador chegar no andar, remover o indice 0 da lista de floors com slice
 */
 
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import {
   StyledBuilding,
   StyledControlPanel,
@@ -42,42 +42,55 @@ import {
 } from "./style";
 
 export const Elevator = () => {
-  const [listFloors, setListFloors] = useState([]);
-  const [currentFloor, setCurrentFloor] = useState(1);
+    const [listFloors, setListFloors] = useState([]);
+    const [isMoving, setIsMoving] = useState(false);
+  
+    const handleChange = (event) => {
+      setListFloors([...listFloors, event.target.value]);
+    };
+  
+    console.log(listFloors);
+  
+    useEffect(() => {
+      if (isMoving) {
+        if (listFloors.length > 0) {
+          const nextFloor = listFloors[0];
+          const elevatorElement = document.querySelector(".container_elevator");
+  
+          if (elevatorElement) {
+            if (nextFloor === "1") {
+              elevatorElement.style.bottom = "0px";
+            } else if (nextFloor === "2") {
+              elevatorElement.style.bottom = "150px";
+            } else if (nextFloor === "3") {
+              elevatorElement.style.bottom = "300px";
+            } else if (nextFloor === "4") {
+              elevatorElement.style.bottom = "450px";
+            }
+  
+            setTimeout(() => {
+              const newList = listFloors.slice(1);
+              setListFloors(newList);
+            }, 1000);
+          }
+        } else {
+          setIsMoving(false);
+          setTimeout(() => {
+            const elevatorElement = document.querySelector(".container_elevator");
+            if (elevatorElement) {
+              elevatorElement.style.bottom = "0px";
+            }
+          }, 2000);
+        }
+      }
+    }, [isMoving, listFloors]);
 
-  const handleChange = (event) => {
-    setListFloors([...listFloors, event.target.value]);
-  };
+    const startJourney = () => {
+        if (!isMoving && listFloors.length > 0) {
+          setIsMoving(true);
+        }
+      };
 
-
-  useEffect(() => {
-    for (let i = 0; i < listFloors.length; i++) {
-      if (listFloors[i] === "1") {
-        const elevatorElement = document.querySelector(".container_elevator");
-        if (elevatorElement) {
-          elevatorElement.style.bottom = "0px";
-        }
-      }
-      if (listFloors[i] === "2") {
-        const elevatorElement = document.querySelector(".container_elevator");
-        if (elevatorElement) {
-          elevatorElement.style.bottom = "150px";
-        }
-      }
-      if (listFloors[i] === "3") {
-        const elevatorElement = document.querySelector(".container_elevator");
-        if (elevatorElement) {
-          elevatorElement.style.bottom = "300px";
-        }
-      }
-      if (listFloors[i] === "4") {
-        const elevatorElement = document.querySelector(".container_elevator");
-        if (elevatorElement) {
-          elevatorElement.style.bottom = "450px";
-        }
-      }
-    }
-  }, [listFloors]);
 
 
   // botão
@@ -113,6 +126,9 @@ export const Elevator = () => {
           </button>
           <button type="button" value={"1"} onClick={handleChange}>
             1
+          </button>
+          <button type="button" onClick={startJourney}>
+            Iniciar Viagem
           </button>
         </StyledControlPanel>
       </StyledMain>
