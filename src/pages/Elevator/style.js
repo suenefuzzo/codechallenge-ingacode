@@ -70,6 +70,8 @@ export const StyledControlPanel = styled.div`
 
     button{
         width: 20px;
+        border-radius: 100%;
+        border: none;
         cursor: pointer;
     }
 `

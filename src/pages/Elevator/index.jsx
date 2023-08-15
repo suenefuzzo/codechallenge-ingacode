@@ -19,13 +19,18 @@ solicitações para processar.
 
 
 Questionamentos:
-    - verificação de quantidade de usuário no elevador?
+    - 
 
 Definições:
     - nos andares 2º e 3º será necessario que o botão do andar seja pra subir ou descer
     - no 4º andar o botão deve ser apenas para descer
+
+    - construir sequencia de andares
+
+    - quando elevador chegar no andar, remover o indice 0 da lista de floors com slice
 */
 
+import { useEffect, useState } from "react";
 import {
   StyledBuilding,
   StyledControlPanel,
@@ -37,6 +42,49 @@ import {
 } from "./style";
 
 export const Elevator = () => {
+  const [listFloors, setListFloors] = useState([]);
+  const [currentFloor, setCurrentFloor] = useState(1);
+
+  const handleChange = (event) => {
+    setListFloors([...listFloors, event.target.value]);
+  };
+
+
+  useEffect(() => {
+    for (let i = 0; i < listFloors.length; i++) {
+      if (listFloors[i] === "1") {
+        const elevatorElement = document.querySelector(".container_elevator");
+        if (elevatorElement) {
+          elevatorElement.style.bottom = "0px";
+        }
+      }
+      if (listFloors[i] === "2") {
+        const elevatorElement = document.querySelector(".container_elevator");
+        if (elevatorElement) {
+          elevatorElement.style.bottom = "150px";
+        }
+      }
+      if (listFloors[i] === "3") {
+        const elevatorElement = document.querySelector(".container_elevator");
+        if (elevatorElement) {
+          elevatorElement.style.bottom = "300px";
+        }
+      }
+      if (listFloors[i] === "4") {
+        const elevatorElement = document.querySelector(".container_elevator");
+        if (elevatorElement) {
+          elevatorElement.style.bottom = "450px";
+        }
+      }
+    }
+  }, [listFloors]);
+
+
+  // botão
+  //  -> se evento de click  = 1, renderiza a seta pra cima
+  // -> se > 1, renderiza seta para cima e para baixo
+  // -> se = 4, renderiza seta para baixo
+
   return (
     <>
       <h1>Elevator</h1>
@@ -48,16 +96,24 @@ export const Elevator = () => {
             <StyledFloor>2º andar</StyledFloor>
             <StyledFloor>1º andar</StyledFloor>
             <div className="container_elevator">
-              <StyledElevator />
+              <StyledElevator className="elevator" />
               <StyledUpButton type="button"></StyledUpButton>
             </div>
           </StyledElevatorShaft>
         </StyledBuilding>
         <StyledControlPanel>
-            <button type="button">4</button>
-            <button type="button">3</button>
-            <button type="button">2</button>
-            <button type="button">1</button>
+          <button type="button" value={"4"} onClick={handleChange}>
+            4
+          </button>
+          <button type="button" value={"3"} onClick={handleChange}>
+            3
+          </button>
+          <button type="button" value={"2"} onClick={handleChange}>
+            2
+          </button>
+          <button type="button" value={"1"} onClick={handleChange}>
+            1
+          </button>
         </StyledControlPanel>
       </StyledMain>
     </>
