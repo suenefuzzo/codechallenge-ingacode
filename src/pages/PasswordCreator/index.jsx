@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { StyledMainPassword } from "./styles";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { toast } from "react-toastify";
 
 export const PasswordCreator = () => {
   const [lengthNumber, setLengthNumber] = useState(1);
@@ -58,7 +59,7 @@ export const PasswordCreator = () => {
       capitalLetter && smallLetter && number && specialCharacter;
 
     if (lengthNumber <= 3 && allOptionsSelected) {
-      alert(
+      toast.error(
         "Sua senha precisa ter mais de 3 caracteres para inserir todos os opcionais"
       );
     } else {

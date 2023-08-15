@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { StyledConverterButton, StyledFormContainer, StyledMain } from "./style";
+import {
+  StyledConverterButton,
+  StyledFormContainer,
+  StyledMain,
+} from "./style";
+import { toast } from "react-toastify";
 
 export const RomanNumeralConverter = () => {
   const [value, setValue] = useState("");
@@ -14,8 +19,10 @@ export const RomanNumeralConverter = () => {
     event.preventDefault();
     const isValid = validateData(value);
 
-    if (!isValid) {
-      return alert("Esse dado não é válido (repetição)");
+    if (!isValid || value === "vv") {
+      toast.warning("Insira um dado válido (caracter inválido)");
+      setConvertedValue("");
+      return
     }
 
     for (let i = 0; i < value.length; i++) {
@@ -28,9 +35,8 @@ export const RomanNumeralConverter = () => {
         value[i] !== "d" &&
         value[i] !== "m"
       ) {
-        return alert("Insira um dado válido (caracter inválido)");
-      } else if (value === "vv") {
-        return alert("Insira um dado válido (caracter inválido)");
+        toast.warning("Insira um dado válido (caracter inválido)");
+        setConvertedValue("");
       }
     }
 
@@ -49,7 +55,9 @@ export const RomanNumeralConverter = () => {
       if (currentElement === prevElement) {
         countRepeats += 1;
         if (countRepeats > repeats) {
-          return alert("Esse dado não é válido");
+          toast.warning("Esse dado não é válido");
+          setConvertedValue("");
+          return
         }
       } else {
         prevElement = currentElement;
@@ -91,23 +99,33 @@ export const RomanNumeralConverter = () => {
     return result;
   };
 
+
+  const renderConvertedValue = () => {
+    if (convertedValue !== "" && !isNaN(convertedValue)) {
+      return <span>{convertedValue}</span>;
+    }
+    return null;
+  };
+
   return (
     <StyledMain>
       <div className="container">
         <img src="/roman.png" alt="" />
         <StyledFormContainer>
           <form>
-            <h1>Roman Numeral</h1>
+            <h1>Conversor de numeral romano</h1>
             <input
               type="text"
               value={value}
               onChange={handleChange}
               placeholder="Digite o número romano"
             />
-            <StyledConverterButton onClick={handleConvert}>Converter</StyledConverterButton>
+            <StyledConverterButton onClick={handleConvert}>
+              Converter
+            </StyledConverterButton>
           </form>
           <div className="containerSpan">
-            <span>{convertedValue}</span>
+            {renderConvertedValue()}
           </div>
         </StyledFormContainer>
       </div>

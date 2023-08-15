@@ -50,7 +50,7 @@ export const StyledMain = styled.main`
 export const StyledFormContainer = styled.div`
   position: absolute;
   width: 270px;
-  bottom: 65px;
+  bottom: 40px;
   right: -50px;
   background-color: white;
   border-radius: 10px;
@@ -70,6 +70,10 @@ export const StyledFormContainer = styled.div`
 
       &:focus {
         outline: none;
+      }
+
+      ::placeholder {
+        color: #999;
       }
     }
   }
