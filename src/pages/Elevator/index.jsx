@@ -44,7 +44,7 @@ export const Elevator = () => {
           setTimeout(() => {
             const newList = listFloors.slice(1);
             setListFloors(newList);
-          }, 4000);
+          }, 2000);
         }
       } else {
         setIsMoving(false);
@@ -54,7 +54,7 @@ export const Elevator = () => {
           if (elevatorElement) {
             elevatorElement.style.bottom = "0px";
           }
-        }, 5000);
+        }, 4000);
       }
     }
   }, [isMoving, listFloors]);
@@ -91,7 +91,7 @@ export const Elevator = () => {
         elevatorElement.style.bottom = "0px";
         elevatorBox.style.backgroundColor = "beige";
       }
-    }, 5000);
+    }, 4000);
     callElevator();
   }, [floor]);
 
